@@ -5,10 +5,11 @@ import { clearUser } from "../redux/AuthSlice";
 import axios from "axios";
 import { USER_API_END_POINT } from "../utils/Constant";
 import { toast } from "react-toastify";
-import { FaChevronDown } from "react-icons/fa";
+import { FaChevronDown, FaBars, FaTimes } from "react-icons/fa";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
@@ -28,6 +29,8 @@ const Navbar = () => {
     }
   };
 
+  const toggleMenu = () => setMobileMenuOpen(!mobileMenuOpen);
+
   return (
     <nav className="bg-white shadow-lg sticky top-0 z-50">
       <div className="container mx-auto flex justify-between items-center py-4 px-6">
@@ -38,84 +41,52 @@ const Navbar = () => {
           JOB<span className="text-red-600">HUNTER</span>
         </Link>
 
+        {/* Hamburger Icon */}
+        <div className="md:hidden">
+          <button onClick={toggleMenu}>
+            {mobileMenuOpen ? (
+              <FaTimes className="text-2xl text-gray-700" />
+            ) : (
+              <FaBars className="text-2xl text-gray-700" />
+            )}
+          </button>
+        </div>
+
+        {/* Desktop Menu */}
         <ul className="hidden md:flex space-x-10 text-base font-semibold text-gray-700">
           {!user ? (
             <>
-              <li className="group relative">
-                <Link
-                  to="/"
-                  className="px-3 py-2 rounded-md text-gray-700 font-medium hover:text-purple-700 hover:bg-purple-100 transition duration-300 ease-in-out"
-                >
-                  Home
-                </Link>
-              </li>
-
-              <li className="group relative">
-                <Link
-                  to="/browse"
-                  className="px-3 py-2 rounded-md text-gray-700 font-medium hover:text-purple-700 hover:bg-purple-100 transition duration-300 ease-in-out"
-                >
-                  Browse
-                </Link>
-              </li>
-
-              <li className="group relative">
-                <Link
-                  to="/jobs"
-                  className="px-3 py-2 rounded-md text-gray-700 font-medium hover:text-purple-700 hover:bg-purple-100 transition duration-300 ease-in-out"
-                >
-                  Jobs
-                </Link>
-              </li>
-
-              <li className="group relative">
-                <Link
-                  to="/login"
-                  className="px-5 py-2 rounded-md text-white font-medium bg-red-600 hover:bg-red-700 transition duration-300 ease-in-out"
-                >
+              <li><Link to="/" className="hover:text-purple-700">Home</Link></li>
+              <li><Link to="/browse" className="hover:text-purple-700">Browse</Link></li>
+              <li><Link to="/jobs" className="hover:text-purple-700">Jobs</Link></li>
+              <li>
+                <Link to="/login" className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition">
                   Login
                 </Link>
               </li>
-
-              <li className="group relative">
-                <Link
-                  to="/signup"
-                  className="px-3 py-2 rounded-md text-white font-medium bg-red-600 hover:bg-red-700 transition duration-300 ease-in-out"
-                >
+              <li>
+                <Link to="/signup" className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition">
                   Signup
                 </Link>
               </li>
             </>
-          ) : user?.role === "recruiter" ? (
+          ) : user.role === "recruiter" ? (
             <>
-              <li className="px-3 py-2 rounded-md text-gray-700 font-medium hover:text-purple-700 hover:bg-purple-100 transition duration-300 ease-in-out">
-                <Link to="/admin/companies">Companies</Link>
-              </li>
-              <li className="px-3 py-2 rounded-md text-gray-700 font-medium hover:text-purple-700 hover:bg-purple-100 transition duration-300 ease-in-out">
-                <Link to="/admin/jobs">Jobs</Link>
-              </li>
+              <li><Link to="/admin/companies" className="hover:text-purple-700">Companies</Link></li>
+              <li><Link to="/admin/jobs" className="hover:text-purple-700">Jobs</Link></li>
             </>
           ) : (
             <>
-              <li className="px-3 py-2 rounded-md text-gray-700 font-medium hover:text-purple-700 hover:bg-purple-100 transition duration-300 ease-in-out">
-                <Link to="/">Home</Link>
-              </li>
-              <li className="px-3 py-2 rounded-md text-gray-700 font-medium hover:text-purple-700 hover:bg-purple-100 transition duration-300 ease-in-out">
-                <Link to="/jobs">Jobs</Link>
-              </li>
-              <Link
-                to="/browse"
-                className="px-3 py-2 rounded-md text-gray-700 font-medium hover:text-purple-700 hover:bg-purple-100 transition duration-300 ease-in-out"
-              >
-                Browse
-              </Link>
+              <li><Link to="/" className="hover:text-purple-700">Home</Link></li>
+              <li><Link to="/jobs" className="hover:text-purple-700">Jobs</Link></li>
+              <li><Link to="/browse" className="hover:text-purple-700">Browse</Link></li>
             </>
           )}
         </ul>
 
-        {/* User Avatar / Menu */}
-        {user ? (
-          <div className="relative">
+        {/* Avatar Dropdown */}
+        {user && (
+          <div className="relative hidden md:block">
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="flex items-center space-x-2 hover:opacity-90 transition"
@@ -131,19 +102,19 @@ const Navbar = () => {
             </button>
 
             {isOpen && (
-              <div className="absolute right-0 mt-3 w-52 bg-white border border-gray-200 rounded-xl shadow-lg py-2 z-50 transition-all duration-300">
+              <div className="absolute right-0 mt-3 w-52 bg-white border border-gray-200 rounded-xl shadow-lg py-2 z-50">
                 <div className="px-4 py-2 text-gray-800 font-semibold text-sm border-b capitalize">
                   {user.fullname}
                 </div>
                 <ul>
                   {user.role === "student" && (
-                    <li className="hover:bg-gray-100 px-4 py-2 cursor-pointer transition duration-200">
+                    <li className="hover:bg-gray-100 px-4 py-2 cursor-pointer">
                       <Link to="/profile">My Profile</Link>
                     </li>
                   )}
                   <li
                     onClick={handleLogout}
-                    className="hover:bg-gray-100 px-4 py-2 cursor-pointer text-red-600 font-medium transition duration-200"
+                    className="hover:bg-gray-100 px-4 py-2 cursor-pointer text-red-600 font-medium"
                   >
                     Logout
                   </li>
@@ -151,8 +122,48 @@ const Navbar = () => {
               </div>
             )}
           </div>
-        ) : null}
+        )}
       </div>
+
+      {/* Mobile Menu */}
+      {mobileMenuOpen && (
+        <div className="md:hidden bg-white border-t border-gray-200 px-6 py-4">
+          <ul className="space-y-4 text-gray-700 text-base font-semibold">
+            {!user ? (
+              <>
+                <li><Link to="/" onClick={toggleMenu}>Home</Link></li>
+                <li><Link to="/browse" onClick={toggleMenu}>Browse</Link></li>
+                <li><Link to="/jobs" onClick={toggleMenu}>Jobs</Link></li>
+                <li><Link to="/login" onClick={toggleMenu}>Login</Link></li>
+                <li><Link to="/signup" onClick={toggleMenu}>Signup</Link></li>
+              </>
+            ) : user.role === "recruiter" ? (
+              <>
+                <li><Link to="/admin/companies" onClick={toggleMenu}>Companies</Link></li>
+                <li><Link to="/admin/jobs" onClick={toggleMenu}>Jobs</Link></li>
+              </>
+            ) : (
+              <>
+                <li><Link to="/" onClick={toggleMenu}>Home</Link></li>
+                <li><Link to="/jobs" onClick={toggleMenu}>Jobs</Link></li>
+                <li><Link to="/browse" onClick={toggleMenu}>Browse</Link></li>
+                <li><Link to="/profile" onClick={toggleMenu}>My Profile</Link></li>
+              </>
+            )}
+            {user && (
+              <li
+                onClick={() => {
+                  toggleMenu();
+                  handleLogout();
+                }}
+                className="text-red-600 font-medium cursor-pointer"
+              >
+                Logout
+              </li>
+            )}
+          </ul>
+        </div>
+      )}
     </nav>
   );
 };
