@@ -29,7 +29,7 @@ export const register = async (req, res) => {
     if (!supportedFormat.includes(file.mimetype)) {
       return res.status(400).json({
         success: false,
-        message: "image type not supported",
+        message: "image type not supported(Only jpg,jpeg,png)",
       });
     }
 
