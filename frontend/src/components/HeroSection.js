@@ -44,7 +44,7 @@ const user = useSelector((state)=>state.auth.user);
         <div className="flex justify-center items-center gap-0">
           <input
             type="text"
-            placeholder="Search jobs, roles or companies..."
+            placeholder="Search for jobs..."
             className="w-3/4 h-12 px-4 rounded-l-full focus:outline-none shadow-md"
             value={keyword}
             onChange={(e) => setKeyword(e.target.value)}
