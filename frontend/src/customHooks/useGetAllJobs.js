@@ -5,12 +5,7 @@ import { JOBS_API_END_POINT } from "../utils/Constant";
 import { setAllJobs } from "../redux/JobSlice";
 
 const useGetAllJobs = () => {
-  const dispatch = useDispatch();
-  const user = useSelector((state) => state.auth.user);
-
   useEffect(() => {
-
-    if (!user) return;
 
     const fetchAllJobs = async () => {
       try {
@@ -29,7 +24,7 @@ const useGetAllJobs = () => {
     };
 
     fetchAllJobs();
-  }, [user]); 
+  }, []); 
 };
 
 export default useGetAllJobs;
