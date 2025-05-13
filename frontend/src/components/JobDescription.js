@@ -24,6 +24,7 @@ const JobDescription = () => {
       try {
          if(!user){
         toast.error("Please Login First")
+           navigate("/")
       }
         const res = await axios.get(`${JOBS_API_END_POINT}/getJobById/${id}`, {
           withCredentials: true,
