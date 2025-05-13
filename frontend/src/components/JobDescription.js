@@ -22,6 +22,9 @@ const JobDescription = () => {
   useEffect(() => {
     const fetch = async () => {
       try {
+         if(!user){
+        toast.error("Please Login First")
+      }
         const res = await axios.get(`${JOBS_API_END_POINT}/getJobById/${id}`, {
           withCredentials: true,
         });
