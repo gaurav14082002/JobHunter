@@ -31,7 +31,7 @@ cloudinary.config({
 
 
 app.use(cors({
-    origin:"http://localhost:3000",
+    origin:"https://jobhuntercareer.com", ,
     methods: ["GET", "POST", "PUT", "DELETE"], // Allowed methodss
     allowedHeaders: ["Content-Type", "Authorization"], 
     credentials:true
