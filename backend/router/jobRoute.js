@@ -5,7 +5,7 @@ import {postJob,getAllJobs,getJobById,allJobsByAdmin} from "../controllers/job.c
 import { isAuth,isRecruiter } from "../middlewares/isAuth.js";
 
 router.post("/postJob",isAuth,postJob)
-router.get("/getAllJobs",isAuth,getAllJobs)
+router.get("/getAllJobs",getAllJobs)
 router.get("/getJobById/:id",isAuth,getJobById)
 router.get("/allJobsByAdmin",isAuth,allJobsByAdmin)
 
