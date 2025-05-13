@@ -1,18 +1,19 @@
-import axios from "axios";
 import { useEffect } from "react";
-const dispatch = useDispatch();
+import { useDispatch } from "react-redux";
+import axios from "axios";
 import { JOBS_API_END_POINT } from "../utils/Constant";
 import { setAllJobs } from "../redux/JobSlice";
 
 const useGetAllJobs = () => {
-  useEffect(() => {
+  const dispatch = useDispatch(); 
 
+  useEffect(() => {
     const fetchAllJobs = async () => {
       try {
         const res = await axios.get(`${JOBS_API_END_POINT}/getAllJobs`);
 
         if (res.data.success) {
-          dispatch(setAllJobs(res.data.data));
+          dispatch(setAllJobs(res.data.data)); 
         } else {
           console.warn("Jobs fetch failed:", res.data.message);
         }
@@ -22,7 +23,7 @@ const useGetAllJobs = () => {
     };
 
     fetchAllJobs();
-  }, []); 
+  }, [dispatch]); 
 };
 
 export default useGetAllJobs;
