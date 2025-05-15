@@ -141,8 +141,8 @@ try {
               type="file"
               name="file"
               onChange={changeFileHandler}
-              className="mx-auto"
-            ></input>
+              className="mx-auto font-bold"
+            >Profile Photo</input>
 
             <button
               type="submit"
