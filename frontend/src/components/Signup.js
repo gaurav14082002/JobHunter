@@ -137,12 +137,18 @@ try {
               <option value="recruiter">Recruiter</option>
             </select>
 
-            <input
-              type="file"
-              name="file"
-              onChange={changeFileHandler}
-              className="mx-auto font-bold"
-            >Profile Photo</input>
+            <div className="flex flex-col items-center gap-2">
+  <label htmlFor="profilePhoto" className="font-bold text-gray-700">
+    Upload Profile Photo
+  </label>
+  <input
+    type="file"
+    id="profilePhoto"
+    name="file"
+    onChange={changeFileHandler}
+    className="font-bold"
+  />
+</div>
 
             <button
               type="submit"
