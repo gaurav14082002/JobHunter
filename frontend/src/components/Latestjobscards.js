@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 const Latestjobscards = ({ item }) => {
   const navigate = useNavigate();
-
+console.log(item);
   return (
     <div
       onClick={() => navigate(`/description/${item._id}`)}
