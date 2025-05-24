@@ -13,7 +13,8 @@ const user = useSelector((state)=>state.auth.user);
   const handleSearch = () => {
     if(!user){
       toast.error("Please Login To Search Jobs");
-    navigate ("/")
+    navigate ("/login")
+      return;
     }
     if (keyword.trim()) {
       navigate(`/browse?keyword=${keyword}`); 
